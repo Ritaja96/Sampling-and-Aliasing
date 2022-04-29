@@ -1,6 +1,6 @@
 # Sampling & Aliasing
-/section
-Demo :
+
+
 The objective of our work is to understand how system process the analog signals and storedalin discrete manner.
 The aim of our objective is to discretize the signal in such a manner so that the reconstruction signal keeps all the information so that we can recover it at the end.
 
