@@ -1,1 +1,1 @@
-# Sampling-and-Aliasing
+# Sampling & Aliasing
