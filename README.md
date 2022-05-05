@@ -1,3 +1,22 @@
+# Setup
+If no version is specified any should work. Here, we used
+* MATLAB 2021b
+* DSPFirst Toolbox
+# How to install and set up DSPFirst toolbox into MATLAB
+Install:
+Add spfirst_zip files to MATLAB and update MATLAB's path.(link: https://dspfirst.gatech.edu/matlab/spfirst_zip/spfirst_v174.zip)
+
+Steps to follow:
+* Download the ZIP file called spfirst_vNNN.zip. that contains everything.
+* Unzip spfirst_vNNN.zip and set up like this : \MATLAB\toolbox\spfirst\. The unzip will create a bunch of subdirectories.
+**NOTE: use forward slash for directories on Mac or Linux.**
+* Then add the above directory path to the MATLAB path. This can be done in MATLAB from the Home Tab ➤ Environment ➤ Set Path.
+**NOTE: For versions previous to R2012a, select from menu File ➤ Set Path.**
+* Type the command spfirst at the MATLAB comand prompt. It will add the other appropriate subdirectories to the path.
+* Final step: under Home Tab ➤ Environment ➤ Set Path, do a save of the new path.
+* Once the MATLABPATH is correct, you should be able to type commands like plotspec will now work. Also try spec
+
+
 # Sampling & Aliasing
 
 
@@ -7,7 +26,7 @@ The aim of our objective is to discretize the signal in such a manner so that th
 To check on this, Two phenomenon are very important sampling and aliasing.
 One cause another, So we can concentrate on Sampling at first. We will discuss Two types of Sampling : (1) Temporal(Time Dependent)Ex: Speech signal-1D (2) Spatial (Space Dependent) Ex: Image-2D
 
-Sampling Theory
+**Theory**
 
 Speech Signal: For experience the sampling and aliasing effect, it is better to start our investigation on Chirp signal
 
@@ -24,3 +43,7 @@ In our experiment with the spectrogram, we exhibit this harmonic line characteri
 First we generate a periodic signal of period 10msec using a sampling rate 10000Hz. Keeping the duration 3sec and observing the 5 periods of the generated signal we can see that it is a triangular periodic signal.
 We then observe the spectrum of this signal and was able to spot the harmonics. However the higher harmonics are not clearly visible in linear scale of spectrogram as they have very small amplitudes.Hence we use a logarithmic or dB scale to spot all the harmonics in spectrogram.
 By changing the period from 20msec to 4msec we notice that when period is shorter the frequency separation of the harmonic lines is greater. 
+# How to run Exercise 2.1
+* Save the main.m
+* Verify "plotspec" is accessible using toolbox.
+* Run the code or publish for better visualization.
