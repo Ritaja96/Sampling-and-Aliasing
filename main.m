@@ -450,6 +450,183 @@ ylabel('Frequency(Hz)');
 colormap(1-gray);
 end
 
+%SHOW_IMG    display an image with possible scaling
+% usage:  ph = show_img(img, figno, scaled, map)
+%    img = input image
+%    where2plot = figure number to use for the plot
+%                 if 0, re-use the same figure
+%                 if omitted a new figure will be opened
+%                  ** OR **
+%                 if 3-component vector, the image 
+%                 will appear as a subplot in the current
+%                 figure, as defined by the vector.
+%                 So, for example if you specify 
+%                 [2 2 1] for "where2plot", this would
+%                 be like using subplot(2,2,1) for
+%                 regular plots
+%    scaled = 1 (TRUE) to do auto-scale (DEFAULT)
+%           not equal to 1 (FALSE) to inhibit scaling
+%    map = user-specified color map
+%     ph = figure handle
+
+
+function [ph] = show_img(img, where2plot, scaled, map)
+
+
+%----
+
+% Jim McClellan, 27-Oct-97   for DSP First and SP First
+% 
+% edited, <msv:gte631d> 02/14/2004 to provide the following:
+%  1. Handle color images
+%  2. Provide subplot ability
+%  3. Work with uint8 arrays efficiently
+%----                   
+
+% initialize FLAGs
+subplot_FLAG = 0;
+uint8_FLAG = 0;
+
+whos_img = whos('img');
+
+if length(whos_img.class) == 5 & whos_img.class(end) == '8';
+    uint8_FLAG =  1;
+end
+% --- end initializing FLAGs ---    
+
+if( nargin > 1 )
+    if  length(where2plot) == 1
+        if where2plot > 0
+            figure( where2plot );
+        else
+            %- use same figure
+        end
+    elseif length(where2plot) == 3
+        subplot(where2plot(1), where2plot(2), where2plot(3));
+        subplot_FLAG = 1;
+    else
+        error(sprintf(['"where2plot" must either be a single '...
+                'positive integer\n or a length-3 vector of '...
+                'positive integers\n']));
+    end
+else
+    figure;
+end
+
+if(nargin < 3),
+    if uint8_FLAG,
+        scaled = 0;
+    else, % needs to be double
+        scaled = 1;   %--- TRUE
+    end
+end;
+
+
+if (scaled)
+    if uint8_FLAG,
+        img = double(img);
+    end
+    disp('Image being scaled so that min value is 0 and max value is 255')
+    mx = max(img(:));
+    mn = min(img(:));
+    omg = uint8(round(255*(img-mn)/(mx-mn)));
+    
+elseif (~scaled),
+    if uint8_FLAG,
+        % 0 ~ 255 limits are naturally gauranteed
+        omg = img;
+    else
+        disp('Values > 255 set to 255 and  negative values set to 0')
+        omg = round(img);
+        I = find(omg < 0);
+        omg(I) = zeros(size(I));
+        I = find(omg > 255);
+        omg(I) = 255 * ones(size(I));
+        omg = uint8(omg);
+    end
+end;
+
+if (nargin < 4)
+    if length(size(omg)) == 2,
+        colormap(gray(256))   %--- Linear color map
+    end
+else 
+    %%%omg = img;
+    colormap(map);
+end;
+
+pim = image(omg);
+
+if ~subplot_FLAG,
+    % Edt. truesize.m <msv>
+    trusize;   %--- DSP First version of truesize                 
+end
+
+axis('image')
+ph = gca;
+
+
+%TRUSIZE   Display image pixel-for-pixel on the screen
+%  usage   trusize(fignum)
+%     operates on figure number fignum.  If fignum is
+%     missing or is equal to zero, then use current figure.
+%   Works by re-sizing the figure window based on the currently
+%   active sub-plot that is assumed to contain an image.
+%	Maps each image pixel to one true screen pixel.
+%	Assumes that all images in the figure window are the same size.
+%
+%   Based on image processing toolbox function called TRUESIZE
+%	See also AXIS IMAGE.
+
+
+function trusize(fignum)
+
+if  nargin<1, fignum = gcf;  end
+if fignum==0, fignum = gcf;  end
+
+ch = get(gca,'children');
+found_image = 0;
+for ii=1:length(ch),
+  if strcmp(get(ch(ii),'type'),'image'),
+     found_image = 1;
+     ima = ch(ii);
+  end
+end
+if ~found_image
+  error('TRUSIZE: found no image in current figure or subplot');
+end
+
+[Ny,Mx] = size(get(ima,'Cdata'));
+
+%-- Save the units for later
+axunits = get(gca,'units');    funits = get(fignum,'units');  runits = get(0,'units');
+%
+set(gca,'units','normalized'); set(fignum,'units','pixels');  set(0,'units','pixels')
+apos = get(gca,'position');    fpos = get(fignum,'position'); rpos = get(0,'screensize');
+
+% Change figure position, but keep the center fixed
+dx = ceil(Mx/apos(3) - fpos(3));
+dy = ceil(Ny/apos(4) - fpos(4));
+fpos = [fpos(1)-round(dx/2) fpos(2)-round(dy/2) fpos(3)+dx fpos(4)+dy];
+
+if fpos(3)>rpos(3) | fpos(4)>rpos(4),
+  disp('TRUSIZE: new figure would be too big to fit on the screen. NO CHANGE.');
+  return
+end
+
+if( (fpos(1)+fpos(3))>rpos(3) ), fpos(1) = rpos(3)-fpos(3);  end
+if( (fpos(2)+fpos(4))>rpos(4) ), fpos(2) = rpos(4)-fpos(4);  end
+
+set(fignum,'Position',fpos);
+
+% Change axis position to get exactly one pixel per image pixel.
+dx = Mx/fpos(3) - apos(3);
+dy = Ny/fpos(4) - apos(4);
+set(gca,'Position',[apos(1)-dx/2 apos(2)-dy/2 apos(3)+dx apos(4)+dy])
+
+set(gca,'units',axunits), set(fignum,'units',funits) %-- Restore units
+
+
 
 
 
