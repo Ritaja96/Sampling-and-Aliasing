@@ -43,7 +43,7 @@ In our experiment with the spectrogram, we exhibit this harmonic line characteri
 First we generate a periodic signal of period 10msec using a sampling rate 10000Hz. Keeping the duration 3sec and observing the 5 periods of the generated signal we can see that it is a triangular periodic signal.
 We then observe the spectrum of this signal and was able to spot the harmonics. However the higher harmonics are not clearly visible in linear scale of spectrogram as they have very small amplitudes.Hence we use a logarithmic or dB scale to spot all the harmonics in spectrogram.
 By changing the period from 20msec to 4msec we notice that when period is shorter the frequency separation of the harmonic lines is greater. 
-# How to run Exercise 2.1
+# How to run Exercise
 * Save the main.m
 * Verify "plotspec" is accessible using toolbox.
 * Run the code or publish for better visualization.
