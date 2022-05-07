@@ -241,6 +241,27 @@ plotspecDB(xxts,fs,Lsect,80);
 % Down-Sampling
 clear;
 
+% (a)	Figure 1 shows the original image next to the down-sampled image.
+% The down-sampled image is the one of the right of the figure. Figure 2 
+% is just of the original image and the Figure 3 is just of the down-sample 
+% image. The aliasing is most noticeable on the white fence in the 
+% right-hand side of the image. The aliasing is also very apparent on the 
+% walls of the buildings next to the lighthouse. Visually this aliasing 
+% appears as a moiré pattern. This phenomenon appears as geometric 
+% artifacts that do not actually exist in the image. Edges are also a lot 
+% starker and rougher in the aliased photo. For example, when looking at 
+% the side of the lighthouse where it meets the sky, the interfaces between 
+% the two has more defined pixel transitions where the non-aliased photo 
+% has a smoother transition between these interfaces.
+
+% (b)	The highest frequency of the fence that is most apparently aliased 
+% appears to be 2 pixels per cycle (from fence post to fence post). This is 
+% right on the edge of what the Nyquist frequency for capturing the fence. 
+% With down sampling the photo by a factor of two, this is placing the 
+% sampling frequency below what can properly capture the fence. This 
+% distortion in the detail creates these geometric artifacts known as moiré 
+% patterns.
+
 load lighthouse;    %loads the lightouse image into variable xx
 
 % figure;  %Figure 1 shows the orignal image right next to the down-sampled image
@@ -286,13 +307,13 @@ hold off;
 
 figure;
 hold on;
-imagesc(abs(fftshift(xf)));
+imagesc(abs(fftshift(xf))); %Shift 0 point to origin on plot and change color scaling 
 title("FFT of original image")
 hold off;
 
 figure;
 hold on;
-imagesc(abs(fftshift(xfp)));
+imagesc(abs(fftshift(xfp))); %Shift 0 point to origin on plot and change color scaling 
 title("FFT of Down-sampled image");
 hold off;
 
