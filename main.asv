@@ -267,34 +267,31 @@ figure;  %Display down-sampled image by itself
 
 imshow(xp);
 title('Down-Sample Image');
-%% Plots for the 2D-FFT of the images for visual representation of the
+
+%Plots for the 2D-FFT of the images for visual representation of the
 %frequency domain
 
-xf = fft2(xx);
-figure;
-hold on;
-imshow(abs(fftshift(xf)));
-title("FFT of original image")
-hold off;
-
-xfp = fft2(xp);
-figure;
-hold on;
-imshow(abs(fftshift(xfp)));
-title("FFT of Down-sampled image")
-hold off;
-
-figure;
-hold on;
-imagesc(abs(fftshift(xf)));
-title("FFT of original image")
-hold off;
-
-figure;
-hold on;
-imagesc(abs(fftshift(xfp)));
-title("FFT of Down-sampled image");
-hold off;
+% xf = fft2(xx);
+% figure(3);
+% hold on;
+% imshow(abs(fftshift(xf)));
+% hold off;
+% 
+% xfp = fft2(xp);
+% figure(4);
+% hold on;
+% imshow(abs(fftshift(xfp)));
+% hold off;
+% 
+% figure(5);
+% hold on;
+% imagesc(abs(fftshift(xf)))
+% hold off;
+% 
+% figure(6);
+% hold on;
+% imagesc(abs(fftshift(xfp)))
+% hold off;
 
 %% Lab3_Exercise_3.2
 clear;
