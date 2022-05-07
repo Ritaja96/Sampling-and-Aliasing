@@ -45,5 +45,4 @@ We then observe the spectrum of this signal and was able to spot the harmonics. 
 By changing the period from 20msec to 4msec we notice that when period is shorter the frequency separation of the harmonic lines is greater. 
 # How to run Exercise
 * Save the main.m
-* Verify "plotspec" is accessible using toolbox.
 * Run the code or publish for better visualization.
